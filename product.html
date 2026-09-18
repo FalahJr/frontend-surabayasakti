@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title id="page-title">Product Detail | PT Sinar Surabayasakti</title>
+<meta name="description" content="Detail produk kabel PT Sinar Surabayasakti.">
+<link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><rect width=%22100%22 height=%22100%22 rx=%2214%22 fill=%22%23E00D30%22/><text x=%2250%22 y=%2268%22 font-size=%2260%22 fill=%22white%22 font-family=%22sans-serif%22 font-weight=%22bold%22 text-anchor=%22middle%22>S</text></svg>">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<script>(function(){try{if(localStorage.getItem('theme')==='dark')document.documentElement.setAttribute('data-theme','dark');}catch(e){}})();</script>
+<link rel="stylesheet" href="css/tailwind.css">
+<link rel="stylesheet" href="css/style.css">
+<script src="https://unpkg.com/lucide@latest"></script>
+</head>
+<body data-page="products" class="font-sans">
+
+<div id="preloader" aria-hidden="true">
+  <div class="preloader-logo">
+    <span class="preloader-mark">S</span>
+    <span>
+      <span class="preloader-name block">SINAR SURABAYASAKTI</span>
+      <span class="preloader-sub block">SUPREME Cable Distributor</span>
+    </span>
+  </div>
+  <div class="preloader-progress">
+    <div class="preloader-bar"><div class="preloader-bar-fill"></div></div>
+    <div class="preloader-pct">0%</div>
+  </div>
+</div>
+
+
+<header id="site-header"></header>
+<div id="mobile-menu-overlay" class="hidden fixed inset-0 bg-black/40 z-40"></div>
+<aside id="mobile-menu" class="fixed top-0 right-0 h-full w-[82%] max-w-sm z-50 shadow-2xl"></aside>
+
+<main id="product-detail-root" class="pt-32 md:pt-36 pb-24">
+  <div class="max-w-7xl mx-auto px-5 md:px-8">
+    <div id="breadcrumb" class="text-xs text-[var(--color-ink-soft)] mb-8"></div>
+    <div id="product-content"></div>
+  </div>
+</main>
+
+<footer id="site-footer" class="text-white footer-bg"></footer>
+<div id="wa-float-slot"></div>
+
+<script src="js/data.js"></script>
+<script>
+  function getParam(name) {
+    return new URLSearchParams(window.location.search).get(name);
+  }
+
+  function renderProductDetail() {
+    const slug = getParam("slug");
+    const product = getProductBySlug(slug);
+    const root = document.getElementById("product-content");
+    const crumb = document.getElementById("breadcrumb");
+
+    if (!product) {
+      crumb.innerHTML = `<a href="index.html" class="hover:text-[var(--color-primary)]">Home</a> / <a href="products.html" class="hover:text-[var(--color-primary)]">Products</a>`;
+      root.innerHTML = `
+        <div class="text-center py-20">
+          <i data-lucide="package-x" class="w-10 h-10 mx-auto text-gray-300"></i>
+          <p class="mt-4 text-[var(--color-ink-soft)]">Product not found.</p>
+          <a href="products.html" class="btn btn-primary mt-6 inline-flex">Back to Products</a>
+        </div>`;
+      if (window.lucide) window.lucide.createIcons();
+      return;
+    }
+
+    document.title = `${product.name} | PT Sinar Surabayasakti`;
+    crumb.innerHTML = `
+      <a href="index.html" class="hover:text-[var(--color-primary)]">Home</a> /
+      <a href="products.html" class="hover:text-[var(--color-primary)]">Products</a> /
+      <a href="products.html?category=${product.category}" class="hover:text-[var(--color-primary)]">${product.categoryLabel}</a> /
+      <span class="text-[var(--color-ink)]">${product.name}</span>`;
+
+    const specsHtml = product.specifications
+      ? `<div class="table-scroll"><table class="w-full text-sm card-surface">${product.specifications}</table></div>`
+      : `<p class="text-sm text-[var(--color-ink-soft)] italic">Technical specifications will be provided upon request.</p>`;
+
+    const appsHtml = product.applications
+      ? `<p class="text-sm text-[var(--color-ink-soft)] leading-relaxed">${product.applications}</p>`
+      : `<p class="text-sm text-[var(--color-ink-soft)] italic">Application details will be provided upon request.</p>`;
+
+    const docsHtml = (product.documents && product.documents.length)
+      ? product.documents.map(d => `
+          <a href="${d.url || '#'}" class="flex items-center justify-between card-surface rounded-xl px-4 py-3 hover:border-[var(--color-primary)] transition-colors">
+            <span class="flex items-center gap-3 text-sm font-medium"><i data-lucide="file-text" class="w-4 h-4" style="color:var(--color-primary)"></i>${d.title}</span>
+            <i data-lucide="download" class="w-4 h-4 text-gray-400"></i>
+          </a>`).join("")
+      : `<p class="text-sm text-[var(--color-ink-soft)] italic">Documents will be made available in the Download Center once provided.</p>`;
+
+    root.innerHTML = `
+      <div class="grid md:grid-cols-2 gap-12">
+        <div class="reveal">
+          <div class="aspect-[4/3] rounded-sm img-placeholder rounded-xl text-sm">[PRODUCT IMAGE]</div>
+        </div>
+        <div class="reveal">
+          <span class="text-[11px] font-semibold uppercase tracking-wide" style="color:var(--color-secondary)">${product.categoryLabel}</span>
+          <h1 class="mt-2 text-2xl md:text-3xl font-extrabold tracking-tight">${product.name}</h1>
+          <p class="mt-5 text-[15px] text-[var(--color-ink-soft)] leading-relaxed">${product.description}</p>
+
+          <div class="mt-8 flex flex-wrap gap-3">
+            <a href="contact.html?product=${encodeURIComponent(product.name)}" class="btn btn-primary">Request Product Information</a>
+            <a href="${getWhatsAppUrl('Halo, saya ingin bertanya tentang produk ' + product.name)}" target="_blank" rel="noopener" class="btn btn-outline-dark">
+              <i data-lucide="message-circle" class="w-4 h-4"></i> WhatsApp Us
+            </a>
+          </div>
+        </div>
+      </div>
+
+      <div class="mt-20 grid md:grid-cols-3 gap-12">
+        <div>
+          <h2 class="font-bold text-lg mb-4">Specifications</h2>
+          ${specsHtml}
+        </div>
+        <div>
+          <h2 class="font-bold text-lg mb-4">Applications</h2>
+          ${appsHtml}
+        </div>
+        <div>
+          <h2 class="font-bold text-lg mb-4">Available Documents</h2>
+          <div class="space-y-2.5">${docsHtml}</div>
+        </div>
+      </div>
+
+      <div class="mt-20 pt-10 border-t border-[var(--color-line)] text-center">
+        <a href="contact.html" class="btn btn-outline-dark">Contact Us</a>
+      </div>
+    `;
+
+    if (window.lucide) window.lucide.createIcons();
+    initReveal();
+  }
+  window.initPage = renderProductDetail;
+</script>
+<script src="js/main.js"></script>
+</body>
+</html>

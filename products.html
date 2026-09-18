@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Products | PT Sinar Surabayasakti</title>
+<meta name="description" content="Katalog produk kabel listrik dan kabel telekomunikasi merk SUPREME dari PT Sinar Surabayasakti.">
+<link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><rect width=%22100%22 height=%22100%22 rx=%2214%22 fill=%22%23E00D30%22/><text x=%2250%22 y=%2268%22 font-size=%2260%22 fill=%22white%22 font-family=%22sans-serif%22 font-weight=%22bold%22 text-anchor=%22middle%22>S</text></svg>">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<script>(function(){try{if(localStorage.getItem('theme')==='dark')document.documentElement.setAttribute('data-theme','dark');}catch(e){}})();</script>
+<link rel="stylesheet" href="css/tailwind.css">
+<link rel="stylesheet" href="css/style.css">
+<script src="https://unpkg.com/lucide@latest"></script>
+</head>
+<body data-page="products" class="font-sans">
+
+<div id="preloader" aria-hidden="true">
+  <div class="preloader-logo">
+    <span class="preloader-mark">S</span>
+    <span>
+      <span class="preloader-name block">SINAR SURABAYASAKTI</span>
+      <span class="preloader-sub block">SUPREME Cable Distributor</span>
+    </span>
+  </div>
+  <div class="preloader-progress">
+    <div class="preloader-bar"><div class="preloader-bar-fill"></div></div>
+    <div class="preloader-pct">0%</div>
+  </div>
+</div>
+
+
+<header id="site-header"></header>
+<div id="mobile-menu-overlay" class="hidden fixed inset-0 bg-black/40 z-40"></div>
+<aside id="mobile-menu" class="fixed top-0 right-0 h-full w-[82%] max-w-sm z-50 shadow-2xl"></aside>
+
+<main>
+  <section class="relative pt-40 pb-16 text-white page-hero-bg">
+    <div class="absolute inset-0 industrial-grid opacity-50"></div>
+    <div class="relative max-w-7xl mx-auto px-5 md:px-8">
+      <p class="text-xs text-white/50 mb-4">Home / <span class="text-white/80">Products</span></p>
+      <h1 class="text-3xl md:text-5xl font-extrabold tracking-tight">Product Catalog</h1>
+      <p class="mt-4 max-w-xl text-white/65 text-[15px] leading-relaxed">Kabel listrik dan kabel telekomunikasi merk SUPREME untuk berbagai kebutuhan industri.</p>
+    </div>
+  </section>
+
+  <section class="py-10 border-b border-[var(--color-line)] sticky top-0 z-30" style="background:var(--color-bg)">
+    <div class="max-w-7xl mx-auto px-5 md:px-8">
+      <div class="flex flex-col lg:flex-row gap-4 lg:items-center lg:justify-between">
+        <div id="category-tabs" class="flex flex-wrap gap-2"></div>
+        <div class="relative w-full lg:w-80">
+          <i data-lucide="search" class="w-4 h-4 absolute left-3.5 top-1/2 -translate-y-1/2 text-gray-400"></i>
+          <input id="product-search" type="text" placeholder="Search products..."
+            class="w-full pl-10 pr-4 py-2.5 text-sm card-surface rounded-xl focus:outline-none focus:border-[var(--color-primary)] transition-colors">
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="py-14 md:py-16">
+    <div class="max-w-7xl mx-auto px-5 md:px-8">
+      <p id="results-count" class="text-sm text-[var(--color-ink-soft)] mb-6"></p>
+      <div id="product-grid" class="grid sm:grid-cols-2 lg:grid-cols-3 gap-6"></div>
+      <div id="empty-state" class="hidden text-center py-24">
+        <i data-lucide="search-x" class="w-10 h-10 mx-auto text-gray-300"></i>
+        <p class="mt-4 text-[var(--color-ink-soft)]">No products found.</p>
+      </div>
+    </div>
+  </section>
+</main>
+
+<footer id="site-footer" class="text-white footer-bg"></footer>
+<div id="wa-float-slot"></div>
+
+<script src="js/data.js"></script>
+<script>
+  let activeCategory = "all";
+  let activeQuery = "";
+
+  function getParam(name) {
+    return new URLSearchParams(window.location.search).get(name);
+  }
+
+  function tabButton(label, value) {
+    const isActive = activeCategory === value;
+    return `<button data-cat="${value}" class="cat-tab px-4 py-2 text-sm font-semibold rounded-sm border transition-colors ${
+      isActive ? "text-white" : "text-[var(--color-ink-soft)] border-[var(--color-line)] hover:border-[var(--color-ink)]"
+    }" ${isActive ? 'style="background:var(--color-primary);border-color:var(--color-primary)"' : ""}>${label}</button>`;
+  }
+
+  function renderTabs() {
+    const el = document.getElementById("category-tabs");
+    el.innerHTML =
+      tabButton("All Products", "all") +
+      productCategories.map((c) => tabButton(c.name, c.slug)).join("");
+    el.querySelectorAll(".cat-tab").forEach((btn) => {
+      btn.addEventListener("click", () => {
+        activeCategory = btn.getAttribute("data-cat");
+        renderTabs();
+        renderGrid();
+      });
+    });
+  }
+
+  function productCard(p) {
+    return `
+      <a href="product.html?slug=${p.id}" class="lift-card block card-surface rounded-xl overflow-hidden">
+        <div class="aspect-[4/3] img-placeholder text-xs">[PRODUCT IMAGE]</div>
+        <div class="p-5">
+          <span class="text-[11px] font-semibold uppercase tracking-wide" style="color:var(--color-secondary)">${p.categoryLabel}</span>
+          <h3 class="mt-1.5 font-bold text-[15px]">${p.name}</h3>
+          <p class="mt-2 text-sm text-[var(--color-ink-soft)] leading-relaxed line-clamp-2">${p.description}</p>
+          <span class="inline-flex items-center gap-1.5 mt-4 text-sm font-semibold" style="color:var(--color-primary)">View Details <i data-lucide="arrow-right" class="w-3.5 h-3.5"></i></span>
+        </div>
+      </a>`;
+  }
+
+  function renderGrid() {
+    const results = searchProducts(activeQuery, activeCategory);
+    const grid = document.getElementById("product-grid");
+    const empty = document.getElementById("empty-state");
+    const count = document.getElementById("results-count");
+
+    count.textContent = `${results.length} product${results.length === 1 ? "" : "s"} found`;
+
+    if (results.length === 0) {
+      grid.innerHTML = "";
+      grid.classList.add("hidden");
+      empty.classList.remove("hidden");
+    } else {
+      grid.classList.remove("hidden");
+      empty.classList.add("hidden");
+      grid.innerHTML = results.map(productCard).join("");
+    }
+    if (window.lucide) window.lucide.createIcons();
+  }
+
+  function renderProductsPage() {
+    const catParam = getParam("category");
+    if (catParam && productCategories.some((c) => c.slug === catParam)) {
+      activeCategory = catParam;
+    }
+    renderTabs();
+    renderGrid();
+
+    const searchInput = document.getElementById("product-search");
+    searchInput.addEventListener("input", (e) => {
+      activeQuery = e.target.value;
+      renderGrid();
+    });
+  }
+  window.initPage = renderProductsPage;
+</script>
+<script src="js/main.js"></script>
+</body>
+</html>

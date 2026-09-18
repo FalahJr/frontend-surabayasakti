@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Vision &amp; Mission | PT Sinar Surabayasakti</title>
+<meta name="description" content="Visi dan misi PT Sinar Surabayasakti.">
+<link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><rect width=%22100%22 height=%22100%22 rx=%2214%22 fill=%22%23E00D30%22/><text x=%2250%22 y=%2268%22 font-size=%2260%22 fill=%22white%22 font-family=%22sans-serif%22 font-weight=%22bold%22 text-anchor=%22middle%22>S</text></svg>">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<script>(function(){try{if(localStorage.getItem('theme')==='dark')document.documentElement.setAttribute('data-theme','dark');}catch(e){}})();</script>
+<link rel="stylesheet" href="css/tailwind.css">
+<link rel="stylesheet" href="css/style.css">
+<script src="https://unpkg.com/lucide@latest"></script>
+</head>
+<body data-page="vision-mission" class="font-sans">
+
+<div id="preloader" aria-hidden="true">
+  <div class="preloader-logo">
+    <span class="preloader-mark">S</span>
+    <span>
+      <span class="preloader-name block">SINAR SURABAYASAKTI</span>
+      <span class="preloader-sub block">SUPREME Cable Distributor</span>
+    </span>
+  </div>
+  <div class="preloader-progress">
+    <div class="preloader-bar"><div class="preloader-bar-fill"></div></div>
+    <div class="preloader-pct">0%</div>
+  </div>
+</div>
+
+
+<header id="site-header"></header>
+<div id="mobile-menu-overlay" class="hidden fixed inset-0 bg-black/40 z-40"></div>
+<aside id="mobile-menu" class="fixed top-0 right-0 h-full w-[82%] max-w-sm z-50 shadow-2xl"></aside>
+
+<main>
+  <section class="relative pt-40 pb-20 text-white page-hero-bg">
+    <div class="absolute inset-0 industrial-grid opacity-50"></div>
+    <div class="relative max-w-7xl mx-auto px-5 md:px-8">
+      <p class="text-xs text-white/50 mb-4">Home / Company / <span class="text-white/80">Vision &amp; Mission</span></p>
+      <h1 class="text-3xl md:text-5xl font-extrabold tracking-tight">Vision &amp; Mission</h1>
+    </div>
+  </section>
+
+  <section class="py-20 md:py-28">
+    <div class="max-w-5xl mx-auto px-5 md:px-8 grid md:grid-cols-2 gap-8">
+      <div class="reveal card-surface rounded-xl p-10">
+        <div class="w-12 h-12 rounded-sm flex items-center justify-center mb-6" style="background:rgba(224,13,48,0.08)">
+          <i data-lucide="eye" class="w-6 h-6" style="color:var(--color-primary)"></i>
+        </div>
+        <h2 class="text-xl font-extrabold">Vision</h2>
+        <p class="mt-4 text-[15px] text-[var(--color-ink-soft)] leading-relaxed italic" id="vision-text"></p>
+      </div>
+      <div class="reveal card-surface rounded-xl p-10">
+        <div class="w-12 h-12 rounded-sm flex items-center justify-center mb-6" style="background:rgba(69,150,241,0.1)">
+          <i data-lucide="target" class="w-6 h-6" style="color:var(--color-secondary)"></i>
+        </div>
+        <h2 class="text-xl font-extrabold">Mission</h2>
+        <p class="mt-4 text-[15px] text-[var(--color-ink-soft)] leading-relaxed italic" id="mission-text"></p>
+      </div>
+    </div>
+
+    <div class="max-w-5xl mx-auto px-5 md:px-8 mt-8">
+      <div class="flex items-start gap-3 border border-dashed rounded-sm p-5" style="border-color:var(--color-line)">
+        <i data-lucide="info" class="w-5 h-5 shrink-0 mt-0.5" style="color:var(--color-secondary)"></i>
+        <p class="text-sm text-[var(--color-ink-soft)]">Pernyataan visi dan misi resmi akan diperbarui setelah disediakan oleh pihak PT Sinar Surabayasakti.</p>
+      </div>
+    </div>
+  </section>
+</main>
+
+<footer id="site-footer" class="text-white footer-bg"></footer>
+<div id="wa-float-slot"></div>
+
+<script src="js/data.js"></script>
+<script>
+  function renderVisionMission() {
+    document.getElementById("vision-text").textContent = companyInfo.vision;
+    document.getElementById("mission-text").textContent = companyInfo.mission;
+  }
+  window.initPage = renderVisionMission;
+</script>
+<script src="js/main.js"></script>
+</body>
+</html>

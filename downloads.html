@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Download Center | PT Sinar Surabayasakti</title>
+<meta name="description" content="Unduh company profile, katalog produk, brosur, datasheet, dan sertifikat PT Sinar Surabayasakti.">
+<link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><rect width=%22100%22 height=%22100%22 rx=%2214%22 fill=%22%23E00D30%22/><text x=%2250%22 y=%2268%22 font-size=%2260%22 fill=%22white%22 font-family=%22sans-serif%22 font-weight=%22bold%22 text-anchor=%22middle%22>S</text></svg>">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<script>(function(){try{if(localStorage.getItem('theme')==='dark')document.documentElement.setAttribute('data-theme','dark');}catch(e){}})();</script>
+<link rel="stylesheet" href="css/tailwind.css">
+<link rel="stylesheet" href="css/style.css">
+<script src="https://unpkg.com/lucide@latest"></script>
+</head>
+<body data-page="downloads" class="font-sans">
+
+<div id="preloader" aria-hidden="true">
+  <div class="preloader-logo">
+    <span class="preloader-mark">S</span>
+    <span>
+      <span class="preloader-name block">SINAR SURABAYASAKTI</span>
+      <span class="preloader-sub block">SUPREME Cable Distributor</span>
+    </span>
+  </div>
+  <div class="preloader-progress">
+    <div class="preloader-bar"><div class="preloader-bar-fill"></div></div>
+    <div class="preloader-pct">0%</div>
+  </div>
+</div>
+
+
+<header id="site-header"></header>
+<div id="mobile-menu-overlay" class="hidden fixed inset-0 bg-black/40 z-40"></div>
+<aside id="mobile-menu" class="fixed top-0 right-0 h-full w-[82%] max-w-sm z-50 shadow-2xl"></aside>
+
+<main>
+  <section class="relative pt-40 pb-16 text-white page-hero-bg">
+    <div class="absolute inset-0 industrial-grid opacity-50"></div>
+    <div class="relative max-w-7xl mx-auto px-5 md:px-8">
+      <p class="text-xs text-white/50 mb-4">Home / <span class="text-white/80">Download Center</span></p>
+      <h1 class="text-3xl md:text-5xl font-extrabold tracking-tight">Download Center</h1>
+      <p class="mt-4 max-w-xl text-white/65 text-[15px] leading-relaxed">Company profile, katalog produk, brosur, datasheet, dan dokumen pendukung lainnya.</p>
+    </div>
+  </section>
+
+  <section class="py-10 border-b border-[var(--color-line)]">
+    <div class="max-w-7xl mx-auto px-5 md:px-8">
+      <div id="download-tabs" class="flex flex-wrap gap-2"></div>
+    </div>
+  </section>
+
+  <section class="py-14 md:py-16">
+    <div class="max-w-5xl mx-auto px-5 md:px-8">
+      <div id="download-list" class="space-y-3"></div>
+      <div class="mt-10 flex items-start gap-3 border border-dashed rounded-sm p-5" style="border-color:var(--color-line)">
+        <i data-lucide="info" class="w-5 h-5 shrink-0 mt-0.5" style="color:var(--color-secondary)"></i>
+        <p class="text-sm text-[var(--color-ink-soft)]">File pada halaman ini masih berupa placeholder. Tautan unduhan resmi akan ditambahkan setelah dokumen tersedia dari PT Sinar Surabayasakti.</p>
+      </div>
+    </div>
+  </section>
+</main>
+
+<footer id="site-footer" class="text-white footer-bg"></footer>
+<div id="wa-float-slot"></div>
+
+<script src="js/data.js"></script>
+<script>
+  let activeDlCategory = "All";
+
+  function fileIconFor(type) {
+    return "file-text";
+  }
+
+  function renderDownloadTabs() {
+    const el = document.getElementById("download-tabs");
+    el.innerHTML = downloadCategories.map(cat => {
+      const isActive = activeDlCategory === cat;
+      return `<button data-cat="${cat}" class="dl-tab px-4 py-2 text-sm font-semibold rounded-sm border transition-colors ${
+        isActive ? "text-white" : "text-[var(--color-ink-soft)] border-[var(--color-line)] hover:border-[var(--color-ink)]"
+      }" ${isActive ? 'style="background:var(--color-primary);border-color:var(--color-primary)"' : ""}>${cat}</button>`;
+    }).join("");
+    el.querySelectorAll(".dl-tab").forEach(btn => {
+      btn.addEventListener("click", () => {
+        activeDlCategory = btn.getAttribute("data-cat");
+        renderDownloadTabs();
+        renderDownloadList();
+      });
+    });
+  }
+
+  function renderDownloadList() {
+    const list = activeDlCategory === "All"
+      ? downloadDocuments
+      : downloadDocuments.filter(d => d.category === activeDlCategory);
+
+    const el = document.getElementById("download-list");
+    if (list.length === 0) {
+      el.innerHTML = `<p class="text-center text-sm text-[var(--color-ink-soft)] py-16">No documents found.</p>`;
+      return;
+    }
+
+    el.innerHTML = list.map(doc => `
+      <div class="flex items-center justify-between gap-4 card-surface rounded-xl px-5 py-4 hover:border-[var(--color-primary)] transition-colors">
+        <div class="flex items-center gap-4 min-w-0">
+          <div class="w-11 h-11 shrink-0 rounded-sm flex items-center justify-center" style="background:rgba(224,13,48,0.08)">
+            <i data-lucide="${fileIconFor(doc.fileType)}" class="w-5 h-5" style="color:var(--color-primary)"></i>
+          </div>
+          <div class="min-w-0">
+            <p class="font-semibold text-[15px] truncate">${doc.title}</p>
+            <p class="text-xs text-[var(--color-ink-soft)] mt-0.5">${doc.category} &middot; ${doc.fileType}</p>
+          </div>
+        </div>
+        <a href="${doc.fileUrl}" class="btn btn-outline-dark shrink-0 !py-2 !px-4 text-xs">
+          <i data-lucide="download" class="w-3.5 h-3.5"></i> Download
+        </a>
+      </div>
+    `).join("");
+    if (window.lucide) window.lucide.createIcons();
+  }
+
+  function initDownloadsPage() {
+    renderDownloadTabs();
+    renderDownloadList();
+  }
+  window.initPage = initDownloadsPage;
+</script>
+<script src="js/main.js"></script>
+</body>
+</html>
